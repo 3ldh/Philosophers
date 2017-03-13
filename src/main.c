@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Mon Mar  6 10:22:43 2017 Sauvau Mathieu
-** Last update Mon Mar 13 13:42:29 2017 Alexandre BLANCHARD
+** Last update Mon Mar 13 13:46:03 2017 Alexandre BLANCHARD
 */
 
 #include <stdio.h>
@@ -59,7 +59,7 @@ void		*philo_logic(void *arg)
   philo = (t_philo *)arg;
   while (philo->nb_eat > 0)
     {
-      //      pthread_mutex_lock(&g_logic);
+      /* pthread_mutex_lock(&g_logic); */
       if (pthread_mutex_trylock(&g_chopsticks[philo->pos]) == 0)
 	{
 	  lphilo_take_chopstick(&g_chopsticks[philo->pos]);
@@ -74,7 +74,7 @@ void		*philo_logic(void *arg)
 	}
       else if (!philo->need_to_eat && philo->state != REST)
 	rest(philo);
-      //      pthread_mutex_unlock(&g_logic);
+      /* pthread_mutex_unlock(&g_logic); */
     }
   return (NULL);
 }
