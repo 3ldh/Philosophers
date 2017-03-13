@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Mon Mar  6 10:12:21 2017 Sauvau Mathieu
-** Last update Mon Mar 13 12:50:00 2017 Sauvau Mathieu
+** Last update Mon Mar 13 13:33:15 2017 Sauvau Mathieu
 */
 
 #ifndef PHILO_H_
@@ -19,7 +19,8 @@ typedef enum	s_state
   {
     THINK,
     EAT,
-    REST
+    REST,
+    DEFAULT,
   }		t_state;
 
 typedef struct	s_philo
@@ -35,6 +36,7 @@ typedef struct	s_philo
 extern int		g_nb_philo;
 extern t_philo		*g_philo;
 extern pthread_mutex_t	*g_chopsticks;
+extern pthread_mutex_t	g_logic;
 
 /* functions */
 void		init_philo(int nb_eat);
