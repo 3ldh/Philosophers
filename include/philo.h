@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Mon Mar  6 10:12:21 2017 Sauvau Mathieu
-** Last update Mon Mar 13 13:42:46 2017 Alexandre BLANCHARD
+** Last update Tue Mar 14 10:00:25 2017 Sauvau Mathieu
 */
 
 #ifndef PHILO_H_
@@ -31,7 +31,6 @@ typedef struct	s_philo
   t_state	state;
   pthread_t	thread_ref;
   int		nb_eat;
-  bool		need_to_eat;
   int		pos;
 }		t_philo;
 
