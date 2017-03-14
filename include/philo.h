@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Mon Mar  6 10:12:21 2017 Sauvau Mathieu
-** Last update Tue Mar 14 10:00:25 2017 Sauvau Mathieu
+** Last update Tue Mar 14 10:35:08 2017 Sauvau Mathieu
 */
 
 #ifndef PHILO_H_
@@ -44,7 +44,6 @@ typedef struct	s_args
 extern int		g_nb_philo;
 extern t_philo		*g_philo;
 extern pthread_mutex_t	*g_chopsticks;
-extern pthread_mutex_t	g_logic;
 
 /* functions */
 void		init_philo(int nb_eat);

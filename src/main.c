@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Mon Mar  6 10:22:43 2017 Sauvau Mathieu
-** Last update Tue Mar 14 10:32:20 2017 Sauvau Mathieu
+** Last update Tue Mar 14 14:41:18 2017 Sauvau Mathieu
 */
 
 #include <stdio.h>
@@ -17,7 +17,6 @@
 int		g_nb_philo;
 t_philo		*g_philo;
 pthread_mutex_t	*g_chopsticks;
-pthread_mutex_t	g_logic = PTHREAD_MUTEX_INITIALIZER;
 
 void		eat(t_philo *philo)
 {
@@ -81,7 +80,7 @@ void		think(t_philo *philo, int chopstick_l, int chopstick_r)
 	  b = true;
 	}
       if (!b)
-	check_unlock(philo, chopstick_l, chopstick_r, false);
+      	check_unlock(philo, chopstick_l, chopstick_r, false);
     }
 }
 
@@ -103,18 +102,19 @@ void		*philo_logic(void *arg)
   int		chopstick_l;
 
   philo = (t_philo *)arg;
+  chopstick_r = 1;
   while (philo->nb_eat > 0)
     {
       cancel_thread(philo);
       chopstick_l = pthread_mutex_trylock(&g_chopsticks[philo->pos]);
-      chopstick_r = pthread_mutex_trylock(&g_chopsticks[(philo->pos + 1) % g_nb_philo]);
-      if (philo->state != EAT && !chopstick_r && !chopstick_l)
-	{
-	  check_lock(philo, chopstick_l, chopstick_r);
-	  eat(philo);
-	  check_unlock(philo, chopstick_l, chopstick_r, true);
-	}
-      else if (philo->state != THINK && philo->state != EAT && (!chopstick_r || !chopstick_l))
+      /* chopstick_r = pthread_mutex_trylock(&g_chopsticks[(philo->pos + 1) % g_nb_philo]); */
+      /* if (philo->state != EAT && !chopstick_r && !chopstick_l) */
+      /* 	{ */
+      /* 	  check_lock(philo, chopstick_l, chopstick_r); */
+      /* 	  eat(philo); */
+      /* 	  check_unlock(philo, chopstick_l, chopstick_r, true); */
+      /* 	} */
+      /* else */ if (philo->state != EAT && (!chopstick_l))
 	think(philo, chopstick_l, chopstick_r);
       else if (philo->state != REST)
 	{
