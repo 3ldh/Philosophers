@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Mon Mar  6 10:22:43 2017 Sauvau Mathieu
-** Last update Tue Mar 14 16:38:40 2017 Sauvau Mathieu
+** Last update Tue Mar 14 16:54:28 2017 Sauvau Mathieu
 */
 
 #include <stdio.h>
@@ -43,7 +43,7 @@ void		check_lock(t_philo *philo, int chopstick_l, int chopstick_r)
     lphilo_take_chopstick(&g_chopsticks[(philo->pos + 1) % g_nb_philo]);
 }
 
-bool		cancel_thread(t_philo *philo, int chopstick_l,
+void		cancel_thread(t_philo *philo, int chopstick_l,
 			      int chopstick_r, bool doit)
 {
   int		i;
@@ -60,10 +60,8 @@ bool		cancel_thread(t_philo *philo, int chopstick_l,
 	    chopstick_r = 1;
 	  }
 	pthread_exit(NULL);
-	return (true);
       }
     }
-  return (false);
 }
 
 void		wait_threads()

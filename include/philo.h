@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Mon Mar  6 10:12:21 2017 Sauvau Mathieu
-** Last update Tue Mar 14 16:38:48 2017 Sauvau Mathieu
+** Last update Tue Mar 14 16:54:40 2017 Sauvau Mathieu
 */
 
 #ifndef PHILO_H_
@@ -54,6 +54,7 @@ int		check_args(char **av, t_args *args);
 void		check_unlock(t_philo *philo, int chopstick_l,
 			     int chopstick_r, bool record);
 void		check_lock(t_philo *philo, int chopstick_l, int chopstick_r);
-bool		cancel_thread(t_philo *philo, int chopstick_l, int chopstick_r, bool doit);
+void		cancel_thread(t_philo *philo, int chopstick_l,
+			      int chopstick_r, bool doit);
 
 #endif /* ! PHILO_H_ */

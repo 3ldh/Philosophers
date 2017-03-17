@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Tue Mar 14 14:52:07 2017 Sauvau Mathieu
-** Last update Tue Mar 14 16:39:42 2017 Sauvau Mathieu
+** Last update Fri Mar 17 08:51:08 2017 Sauvau Mathieu
 */
 
 #include "unistd.h"
@@ -14,6 +14,7 @@
 
 void		eat(t_philo *philo)
 {
+  //  usleep(2000);
   //printf("philo %d eat\n", philo->pos);
   philo->state = EAT;
   --philo->nb_eat;
@@ -22,7 +23,7 @@ void		eat(t_philo *philo)
 
 void		rest(t_philo *philo)
 {
-  usleep(200);
+  usleep(5000);
   //printf("philo %d rest\n", philo->pos);
   philo->state = REST;
   lphilo_sleep();
@@ -44,8 +45,8 @@ void		think(t_philo *philo, int chopstick_l, int chopstick_r)
       chopstick_r = pthread_mutex_trylock(&g_chopsticks[(philo->pos + 1) % g_nb_philo]);
       if (!chopstick_l && !chopstick_r)
 	{
-	  cancel_thread(philo, chopstick_l, chopstick_r, true);
 	  check_lock(philo, chopstick_l, chopstick_r);
+	  cancel_thread(philo, chopstick_l, chopstick_r, true);
 	  eat(philo);
 	  check_unlock(philo, chopstick_l, chopstick_r, true);
 	  b = true;
