@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Tue Mar 14 14:52:07 2017 Sauvau Mathieu
-** Last update Fri Mar 17 11:06:27 2017 Sauvau Mathieu
+** Last update Fri Mar 17 11:11:42 2017 Sauvau Mathieu
 */
 
 #include "unistd.h"
@@ -53,7 +53,7 @@ void		think(t_philo *philo, int chopstick_l, int chopstick_r)
   check_lock(philo, chopstick_l, chopstick_r);
   //printf("philo %d think\n", philo->pos);
   philo->state = THINK;
-  lphilo_think();
+   lphilo_think();
   check_unlock(philo, chopstick_l, chopstick_r, false);
   while (philo->state == THINK)
     {
