@@ -5,7 +5,7 @@
 ** Login   <blanch_p@epitech.net>
 **
 ** Started on  Mon Mar 13 10:25:23 2017 Alexandre BLANCHARD
-** Last update Mon Mar 13 12:42:06 2017 Alexandre BLANCHARD
+** Last update Fri Mar 17 10:36:14 2017 Sauvau Mathieu
 */
 
 #include "philo.h"
@@ -91,6 +91,5 @@ int	check_args(char **av, t_args *args)
       usage(av);
       return (1);
     }
-  printf("OK\n%d philosophers and %d occurences\n", args->philo, args->occur);
   return (0);
 }
