@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Mon Mar  6 10:22:43 2017 Sauvau Mathieu
-** Last update Fri Mar 17 10:57:47 2017 Sauvau Mathieu
+** Last update Fri Mar 17 16:14:53 2017 Alexandre BLANCHARD
 */
 
 #include <stdio.h>
@@ -18,29 +18,22 @@ int		g_nb_philo;
 t_philo		*g_philo;
 pthread_mutex_t	*g_chopsticks;
 
-void		check_unlock(t_philo *philo, int chopstick_l,
-			     int chopstick_r, bool record)
+void		init_philo(int nb_eat)
 {
-  if (!chopstick_l)
-    {
-      pthread_mutex_unlock(&g_chopsticks[philo->pos]);
-      if (record)
-	lphilo_release_chopstick(&g_chopsticks[philo->pos]);
-    }
-  if (!chopstick_r)
-    {
-      pthread_mutex_unlock(&g_chopsticks[(philo->pos + 1) % g_nb_philo]);
-      if (record)
-	lphilo_release_chopstick(&g_chopsticks[(philo->pos + 1) % g_nb_philo]);
-    }
-}
+  int		i;
 
-void		check_lock(t_philo *philo, int chopstick_l, int chopstick_r)
-{
-  if (!chopstick_r)
-    lphilo_take_chopstick(&g_chopsticks[philo->pos]);
-  if (!chopstick_l)
-    lphilo_take_chopstick(&g_chopsticks[(philo->pos + 1) % g_nb_philo]);
+  i = -1;
+  while (++i < g_nb_philo)
+    {
+      g_philo[i].state = DEFAULT;
+      g_philo[i].nb_eat = nb_eat;
+      g_philo[i].pos = i;
+      g_philo[i].do_break = 0;
+      pthread_mutex_init(&g_chopsticks[i], NULL);
+    }
+  i = -1;
+  while (++i < g_nb_philo)
+    pthread_create(&(g_philo[i].thread_ref), NULL, philo_logic, &g_philo[i]);
 }
 
 bool		cancel_thread()
