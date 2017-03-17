@@ -5,17 +5,10 @@
 ** Login   <blanch_p@epitech.net>
 **
 ** Started on  Mon Mar 13 10:25:23 2017 Alexandre BLANCHARD
-** Last update Fri Mar 17 10:36:14 2017 Sauvau Mathieu
+** Last update Fri Mar 17 10:52:26 2017 Alexandre BLANCHARD
 */
 
 #include "philo.h"
-
-void	usage(char **av)
-{
-  printf("Usage:\n\t%s -p X -e Y\n\n", av[0]);
-  printf("\tX: Number of philosophers\n");
-  printf("\tY: Number of occurences\n\n");
-}
 
 int	have_nb_philo(char **av, t_args *args)
 {
@@ -88,6 +81,18 @@ int	check_args(char **av, t_args *args)
       || have_nb_philo(av, args) != 0
       || have_nb_occur(av, args) != 0)
     {
+      usage(av);
+      return (1);
+    }
+  if (args->philo <= 1)
+    {
+      printf("WARNING !\n\tA philosopher can't eat alone !\n\n");
+      usage(av);
+      return (1);
+    }
+  if (args->occur < 1)
+    {
+      printf("WARNING !\n\tPhilosopher(s) need to eat !\n\n");
       usage(av);
       return (1);
     }
