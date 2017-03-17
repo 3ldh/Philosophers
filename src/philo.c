@@ -5,7 +5,7 @@
 ** Login   <mathieu.sauvau@epitech.eu>
 **
 ** Started on  Tue Mar 14 14:52:07 2017 Sauvau Mathieu
-** Last update Fri Mar 17 08:51:08 2017 Sauvau Mathieu
+** Last update Fri Mar 17 11:06:27 2017 Sauvau Mathieu
 */
 
 #include "unistd.h"
@@ -29,30 +29,41 @@ void		rest(t_philo *philo)
   lphilo_sleep();
 }
 
+int		check_eat(t_philo *philo, int chopstick_l, int chopstick_r)
+{
+  if (!chopstick_l && !chopstick_r)
+    {
+      if (cancel_thread())
+	{
+	  check_unlock(philo, chopstick_l, chopstick_r, false);
+	  return (2);
+	}
+      check_lock(philo, chopstick_l, chopstick_r);
+      eat(philo);
+      check_unlock(philo, chopstick_l, chopstick_r, true);
+      return (1);
+    }
+  return (0);
+}
+
 void		think(t_philo *philo, int chopstick_l, int chopstick_r)
 {
-  bool		b;
+  int		b;
 
   check_lock(philo, chopstick_l, chopstick_r);
   //printf("philo %d think\n", philo->pos);
   philo->state = THINK;
   lphilo_think();
   check_unlock(philo, chopstick_l, chopstick_r, false);
-  b = false;
   while (philo->state == THINK)
     {
       chopstick_l = pthread_mutex_trylock(&g_chopsticks[philo->pos]);
       chopstick_r = pthread_mutex_trylock(&g_chopsticks[(philo->pos + 1) % g_nb_philo]);
-      if (!chopstick_l && !chopstick_r)
-	{
-	  check_lock(philo, chopstick_l, chopstick_r);
-	  cancel_thread(philo, chopstick_l, chopstick_r, true);
-	  eat(philo);
-	  check_unlock(philo, chopstick_l, chopstick_r, true);
-	  b = true;
-	}
-      if (!b)
-      	check_unlock(philo, chopstick_l, chopstick_r, false);
+      b = check_eat(philo, chopstick_l, chopstick_r);
+      if (b == 2)
+	break;
+      else if (b == 0)
+	check_unlock(philo, chopstick_l, chopstick_r, false);
     }
 }
 
@@ -64,7 +75,7 @@ void		*philo_logic(void *arg)
 
   philo = (t_philo *)arg;
   chopstick_r = 1;
-  while (philo->nb_eat > 0)
+  while (philo->nb_eat > 0 && !philo->do_break)
     {
       chopstick_l = pthread_mutex_trylock(&g_chopsticks[philo->pos]);
       /* chopstick_r = pthread_mutex_trylock(&g_chopsticks[(philo->pos + 1) % g_nb_philo]); */
@@ -81,7 +92,7 @@ void		*philo_logic(void *arg)
 	  check_unlock(philo, chopstick_l, chopstick_r, false);
 	  rest(philo);
 	}
-      cancel_thread(philo, chopstick_l, chopstick_r, false);
+      //      cancel_thread(philo, chopstick_l, chopstick_r, false);
     }
   return (NULL);
 }
@@ -96,6 +107,7 @@ void		init_philo(int nb_eat)
       g_philo[i].state = DEFAULT;
       g_philo[i].nb_eat = nb_eat;
       g_philo[i].pos = i;
+      g_philo[i].do_break = 0;
       pthread_mutex_init(&g_chopsticks[i], NULL);
     }
   i = -1;
